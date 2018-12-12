@@ -15,12 +15,15 @@ matching = []
 for i in d:
     matching.append([list(i.split(' ')[0]), i.split(' ')[2]])
 
+addendum = ['.'] * 4
+decalage = 0
+gen = 0
 
-initial = addendum + list(initial) + addendum
 print(initial)
 print(matching)
 
-for gen in range(20):
+while gen < 20:
+    initial = addendum + list(initial) + addendum
     next = ['.'] * len(initial)
     for i in range(2, len(initial) -1):
         for match,plant in matching:
@@ -28,10 +31,18 @@ for gen in range(20):
 
                 next[i] = plant
     initial = list(next)
-    print(''.join(next))
-
+    decalage += 4
+    while initial[0] == '.':
+        initial.pop(0)
+        decalage -= 1
+    while initial[-1] == '.':
+        initial.pop()
+    #print(''.join(initial))
+    gen+=1
+    if gen % 10000 == 0:
+        print(gen)
 result = 0
 for i in range(len(initial)):
     if initial[i] == '#':
-        result += i - 50
+        result += i - decalage
 print(result)
